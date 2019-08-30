@@ -9,10 +9,10 @@ app.get('/', function (req, res) {
     res.render('index.html', {username: "Guest", TaskDb: db});
 });
 
-app.get('/addnewbook.html', function (req, res) {
-    res.render('addnewbook.html', {username: "Guest", TaskDb: db});
+app.get('/addTask.html', function (req, res) {
+    res.render('addTask.html', {username: "Guest", TaskDb: db});
 });
-app.get('/addnewbook', function (req, res) {
+app.get('/addTask', function (req, res) {
     res.sendFile(__dirname + '/views/newbook.html')
 });
 app.use(bodyParser.urlencoded({
@@ -35,8 +35,8 @@ app.get('/', function (rqe, res) {
     db.push(newitems);
   //  res.send("items have been inserted into the database");
 
-app.get('/GetBook.html', function (req, res) {
-    res.render('GetBook.html', {username: "Guest", TaskDb: db});
+app.get('/ListAll.html', function (req, res) {
+    res.render('ListAll.html', {username: "Guest", TaskDb: db});
 });
 
 
