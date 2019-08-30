@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
+app.use(express.static('images'));
+app.use(express.static('css'));
+
 let db = [];
 let bodyParser = require('body-parser');
 
