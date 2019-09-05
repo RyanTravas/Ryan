@@ -1,26 +1,20 @@
 <html>
 <head>
-        <link rel= "stylesheet" href = "Styles.css" >
-        <img src="logo.jpg">
-    <style>
-
-        table,th,td {
-            border: 1px solid black;
-        }
-    </style>
+        <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1> Welcome
+    <h1> Insert User</h1> </br>
+    <h1>
+        <a href="/">Insert Users</a>
+        <a href="/getusers">List Users</a>
+        <a href="/updateuser">Update User</a>
+        <a href="/deleteuser">Delete User</a>
     </h1>
-    </br>
-    <br/>
-    <div class="jumbotron">
-        <h1>To Do App</h1>
-        <h2> <a href="addTask.html" class="btn btn-primary">Add New Task</a>
-            <a href="ListAll.html" class="btn btn-primary">List All Tasks</a>
-
-        </h2>
-    </div>
-    
+    <form action="/addnewuser" method="POST">
+        User Name <input type="text" method="POST" name="uname" /> </br>
+        User Age <input type="number" method="POST" name="uage" /> </br>
+        User Address <input type="text" method="POST" name="uaddress" /> </br>
+        <input type="submit" value="Submit" /> </br>
+    </form>
 </body>
 </html>
