@@ -3,18 +3,20 @@
                 <link rel="stylesheet" href="styles.css">
         </head>
 <body>
-    <h1>Update User</h1></br>
+        <img src="task.jpg" style="width:100px;height:150px;">
+    <h1>Update Task</h1></br>
     <h1>
-        <a href="/">Insert Users</a>
-        <a href="/getusers">List Users</a>
-        <a href="/updateuser">Update User</a>
-        <a href="/deleteuser">Delete User</a>
+           
+        <a href="/">Add Task</a>
+        <a href="/getusers">List Task</a>
+        <a href="/updateuser">Update Task</a>
+        <a href="/deleteuser">Delete Task</a>
     </h1>
     <form action="/updateuserdata" method="POST">
-        User Old Name <input type="text" method="POST" name="unameold" /> </br>
-        User New Name <input type="text" method="POST" name="unamenew" /> </br>
-        User New Age <input type="number" method="POST" name="uagenew" /> </br>
-        User New Address <input type="text" method="POST" name="uaddressnew" /> </br>
+        User Old ID <input type="number" method="POST" name="IDold" /> </br>
+       
+        User TaskStatus <input type="checkbox" value="Complete"  method="POST" name="uStatusnew" /> </br>
+       
         <input type="submit" value="Submit" /> </br>
     </form>
 </body>

@@ -5,22 +5,25 @@
     </head>
 </head>
 <body>
-    <h1>List Users</h1> </br>
-    <h1> <a href="/">Insert Users</a>
-        <a href="/getusers">List Users</a>
-        <a href="/updateuser">Update User</a>
-        <a href="/deleteuser">Delete User</a>
+        <img src="task.jpg" style="width:100px;height:150px;">
+    <h1>List All</h1> </br>
+    <h1> <a href="/">Add Task</a>
+        <a href="/getusers">List Task</a>
+        <a href="/updateuser">Update Task</a>
+        <a href="/deleteuser">Delete Task</a>
     </h1>
     <table>
         <tr>
+            <td>ID</td>
             <td>Name</td>
-            <td>Asignto</td>
+            <td>Asign_To</td>
             <td>Due Date</td>
             <td>Status</td>
             <td>Desc</td>
         </tr>
         <% for (let i=0;i<usersDb.length;i++){ %>
             <tr>
+                <td><%= usersDb[i].id %> </td>
                 <td><%= usersDb[i].name %> </td>
                 <td> <%= usersDb[i].asignto %> </td>
                 <td><%= usersDb[i].DueDate %></td>
