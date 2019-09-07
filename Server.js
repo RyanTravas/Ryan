@@ -45,7 +45,6 @@ app.post('/addnewuser', function (req, res) {
         asignto: userDetails.asignto, 
         DueDate: userDetails.uDate, 
         TaskStatus: userDetails.uStatus,
-        TaskStatus: userDetails.uStatusp,
         Desc: userDetails.udesc,
      });
     res.redirect('/getusers'); // redirect the client to list users page
