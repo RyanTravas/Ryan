@@ -3,6 +3,8 @@ const express = require("express");
 const mongodb = require("mongodb");
 const bodyparser = require('body-parser');
 const morgan = require('morgan');
+var mongoose = require('mongoose');
+
 //Configure Express
 const app = express()
 app.use(express.static('images'));
