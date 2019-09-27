@@ -9,8 +9,8 @@ const mongoose = require('mongoose');
 const app = express()
 app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
-app.use(express.static('images'));
-app.use(express.static('css'));
+app.use(express.static('Images'));
+app.use(express.static('CSS'));
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(morgan('common'));
 app.listen(8080);
