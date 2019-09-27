@@ -1,0 +1,35 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <img src="logo.jpg">
+    <h1> Add a New Task</h1>
+    </br>
+    <form action="/addNewTask" method="POST">
+    <label>Task Name:</label><br>
+    <input type="text" name="name"> <br><br>
+    <label>Assign to:</label><br>
+    <input type="text" name="assign"> <br><br>
+    <label>Task Due Date:</label><br>
+    <input type="date" name="dueDate"> <br><br>
+    <label>Task Status:</label><br>
+    <input type="radio" name="status" value="In Progress" > <label> In Progress</label><br>
+    <input type="radio" name="status" value="Complete" ><label> Complete</label><br><br>
+    <label>Task Description:</label><br>
+    <input type="text" name="description"> <br><br>
+    
+    <button>Submit</button>
+
+    </form>
+
+    <a href="/">Home</a> <br>
+    <a href="listtasks.html">List All Tasks</a> <br>
+    <a href="deleteByID.html">Delete Task By ID</a> <br>
+    <a href="deleteAll">Delete All Completed Tasks</a> <br>
+    <a href="updateStatus.html">Update Task Status</a> <br>
+    <a href="listdevs.html">List all Developers</a> <br>
+</body>
+</html>
+
+

@@ -1,0 +1,54 @@
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <script src="Lab4.js"></script>
+</head>
+<body>
+        <img src="logo.jpg">
+    <h1>List All Tasks</h1>
+    <h3>Tasks to do:
+        <table>
+            <tr>
+                <td>Task ID</td>
+                <td>Name</td>
+                <td>Assigned To</td>
+                <td>Task Due Date</td>
+                <td>Task Status</td>
+                <td>Task Description</td>
+            </tr>
+            <% for (var i=0; i< taskDb.length;i++){ %>
+                <tr>
+                    <td>
+                        <%= taskDb[i].id %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].name %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].assign %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].dueDate %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].status %>
+                    </td>
+                    <td>
+                        <%= taskDb[i].description %>
+                    </td>
+                    
+                </tr>
+                <% }%>
+            </table>
+    </h3>
+
+    <a href="/">Home</a> <br>
+    <a href="newtask.html">Add New Task</a> <br>
+    <a href="deleteByID.html">Delete Task By ID</a> <br>
+    <a href="deleteAll">Delete All Completed Tasks</a> <br>
+    <a href="updateStatus.html">Update Task Status</a> <br>
+    <a href="listdevs.html">List All Developers</a> <br>
+    <a href="newdev.html">Add a new Developer</a> <br>
+</body>
+</html>
+
