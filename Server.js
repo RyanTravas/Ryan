@@ -3,14 +3,14 @@ const express = require("express");
 const mongodb = require("mongodb");
 const bodyparser = require('body-parser');
 const morgan = require('morgan');
-const mongoose = require('mongoose');
 
 //Configure Express
 const app = express()
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
 app.use(express.static('images'));
 app.use(express.static('css'));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+app.use(express.static('public'));
 app.use(bodyparser.urlencoded({ extended: false }));
 app.use(morgan('common'));
 app.listen(8080);
@@ -18,9 +18,7 @@ app.listen(8080);
 const MongoClient = mongodb.MongoClient;
 // Connection URL
 const url = "mongodb://localhost:27017/";
-const Developer = require('./models/Developers.js');
-const Task = require('./models/Tasks.js');
-//reference to the database
+//reference to the database (i.e. collection)
 let db;
 //Connect to mongoDB server
 MongoClient.connect(url, { useNewUrlParser: true },
@@ -32,137 +30,70 @@ MongoClient.connect(url, { useNewUrlParser: true },
             db = client.db("fit2095db");
         }
     });
+//Routes Handlers
+//Insert new User
+//GET request: send the page to the client
+app.get('/', function (req, res) {
+    res.sendFile(__dirname + '/views/index.html');
+});
+//POST request: receive the details from the client and insert new document (i.e. object) to the collection (i.e. table)
+app.post('/addnewuser', function (req, res) {
+    let userDetails = req.body;
+    let newID = Math.round(Math.random()* 1000);
+    db.collection('users').insertOne({ 
+        id:newID,
+        name: userDetails.uname, 
+        asignto: userDetails.asignto, 
+        DueDate: userDetails.uDate, 
+        TaskStatus: userDetails.uStatus,
+        Desc: userDetails.udesc,
+     });
+    res.redirect('/getusers'); // redirect the client to list users page
+});
+//List all users
+//GET request: send the page to the client. Get the list of documents form the collections and send it to the rendering engine
+app.get('/getusers', function (req, res) {
+    db.collection('users').find({}).toArray(function (err, data) {
+        res.sendFile(__dirname + '/views/listusers.html');
+        res.render('listusers', { usersDb: data });
+    });
+});
+//Update user: 
+//GET request: send the page to the client 
+app.get('/updateuser', function (req, res) {
+    res.sendFile(__dirname + '/views/updateuser.html');
+});
+//POST request: receive the details from the client and do the update
+app.post('/updateuserdata', function (req, res) {
+    let upID = parseInt(req.body.IDold );
+    let filter = { id: upID};
+    let userDetails = req.body;
+    //let filter = { name: userDetails.unameold };
+    let theUpdate = { $set: { 
+        //name: userDetails.unamenew,
+        //asignto: userDetails.asigntonew,
+       // DueDate: userDetails.uDatenew,
+        TaskStatus: userDetails.uStatusnew,
+        //Desc: userDetails.udescnew,
+      } };
+      db.collection('users').updateOne(filter, theUpdate);
+      res.redirect('/getusers');// redirect the client to list users page 
+        
+       });
+//Update User: 
+//GET request: send the page to the client to enter the user's name
+app.get('/deleteuser', function (req, res) {
+    res.sendFile(__dirname + '/views/deleteuser.html');
+});
+//POST request: receive the user's name and do the delete operation 
+app.post('/deleteuserdata', function (req, res) {
+    let delID = parseInt(req.body.uname);
+    let filter = { id: delID };
+    db.collection('users').deleteOne(filter);
+    res.redirect('/getusers');// redirect the client to list users page
+});
 
-    //mongoose connection for CRUD
-           
-    mongoose.connect('mongodb://localhost:27017/fit2095db', function (err) {
-        if (err) {
-            console.log('Error in Mongoose connection');
-            throw err;
-        }
-        console.log('Successfully connected');
-        app.get('/', function (req, res) {
-            res.render('index.html');
-        });
-    
-        app.get('/newtask.html', function (req, res) {
-            res.render('newtask.html');  
-        });
-    
-        app.get('/newdev.html', function (req, res) {
-            res.render('newdev.html');  
-        });
-    
-    //Add new task
-    app.post('/addNewTask', function (req, res) {
-        
-        var task1 = new Task({
-            _id: new mongoose.Types.ObjectId(),
-            id: Math.round(Math.random()*1000),
-            name: req.body.name,
-            assign: req.body.assign,
-            dueDate: req.body.dueDate,
-            status: req.body.status,
-            description: req.body.description
-        });
-        //Query the devolper against the ID
-        Developer.findById(req.body.assign, 'name.firstName', function (err, docs) {
-            console.log(docs);
-        });
-        task1.save(function (err) {
-            if (err) throw err;
-            console.log('Task successfully add to DB');
-        });
-    
-        res.redirect('/listtasks.html'); 
-    });
-    
-    //Add new dev
-    app.post('/addNewDev', function (req, res) {
-        var dev1 = new Developer({
-            _id: new mongoose.Types.ObjectId(),
-            name: {
-                firstName: req.body.firstname,
-                lastName: req.body.lastname
-            },
-            level: req.body.level,
-            address: {
-                state: req.body.state,
-                suburb: req.body.suburb,
-                street: req.body.street,
-                unit: req.body.unit
-            },
-        });
-    
-        dev1.save(function (err) {
-            if (err) throw err;
-            console.log('Dev successfully add to DB');
-        });
-    
-        res.redirect('/listdevs.html'); 
-    });
-    
-    //List all Tasks
-    app.get('/listtasks.html', function (req, res) {
-        db.collection('tasks').find({}).toArray(function (err, data) {
-            res.render('listtasks.html', { taskDb: data });
-        });
-    });
-    
-    //List all Developers
-    app.get('/listdevs.html', function (req, res) {
-        db.collection('developers').find({}).toArray(function (err, data) {
-            res.render('listdevs.html', { devDb: data });
-        });
-    });
-    
-    
-    //Update Task Status
-    app.get('/updateStatus.html', function (req, res) {
-        res.render('updateStatus.html');
-    });
-    
-    
-    app.post('/updateTaskStatus', function (req, res) {
-        let updateInt = parseInt(req.body.del);
-        let updateStat = req.body.status;
-        console.log(updateInt);
-        console.log(updateStat);
-        db.collection('tasks').updateOne({ id: updateInt }, { $set: {status: updateStat } }, 
-            { upsert: false }, function (err, result) {
-        });
-        res.redirect('/listtasks.html');
-    })
-    
-    
-    //Delete All 'Completed' Tasks
-    app.get('/deleteAll', function (req, res) {
-        db.collection("tasks").deleteMany({status: 'Complete'}, function (err, obj) {
-            console.log(obj.result);
-          });
-        res.redirect('listtasks.html');
-        
-    });
-    
-    
-    //Delete Tasks By ID 
-    app.get('/deleteByID.html', function (req, res) {
-        res.render('deleteByID.html')
-        
-    });
-    
-    
-    app.post('/deleteTask', function (req, res) {
-        let delInt = req.body.del;
-        console.log(delInt);
-        db.collection("tasks").deleteOne({ id: parseInt(delInt) }, function (err, obj) {
-            console.log(obj.result);
-          });
-          res.redirect('listtasks.html');
-    });
-    
-        });
-    
-    
-    
-
+app.post('/deleteComplete', function (req, res) {
+    db.collection("users").deleteMany({ TaskStatus: "Complete" })
+    res.redirect('/getusers');// redirect the client to list users page
+      });
